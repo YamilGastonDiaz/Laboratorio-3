@@ -2,16 +2,18 @@ CREATE DATABASE ActividadTres
 
 USE ActividadTres
 
-CREATE TABLE PAISES(
-    Pais_id BIGINT NOT NULL IDENTITY(1, 1),
-    NombrePais VARCHAR(100) NOT NULL,
-    PRIMARY KEY (Pais_id)
-)
-
 CREATE TABLE CIUDADES(
     Ciudad_id BIGINT NOT NULL IDENTITY(1, 1),
     NombreCiudad VARCHAR(100) NOT NULL,
     PRIMARY KEY (Ciudad_id)
+)
+
+CREATE TABLE PAISES(
+    Pais_id BIGINT NOT NULL IDENTITY(1, 1),
+    NombrePais VARCHAR(100) NOT NULL,
+    Ciudad_id BIGINT NOT NULL,
+    PRIMARY KEY (Pais_id),
+    FOREIGN KEY (Ciudad_id) REFERENCES CIUDADES (Ciudad_id)
 )
 
 CREATE TABLE TORNEOS(
@@ -20,11 +22,9 @@ CREATE TABLE TORNEOS(
     PremioDinero SMALLMONEY NOT NULL,
     CostoInscripcion SMALLMONEY NOT NULL,
     Pais_id BIGINT NOT NULL,
-    Ciudad_id BIGINT NOT NULL,
     FechaTorneo DATE NOT NULL,
     PRIMARY KEY (Torneo_id),
-    FOREIGN KEY (Pais_id) REFERENCES PAISES (Pais_id),
-    FOREIGN KEY (Ciudad_id) REFERENCES CIUDADES (Ciudad_id)
+    FOREIGN KEY (Pais_id) REFERENCES PAISES (Pais_id)
 )
 
 CREATE TABLE PARTICIPANTES(
