@@ -10,7 +10,7 @@ SELECT Apellido, Nombre, CorreoElectronico FROM Clientes
 SELECT Apellido + ',' + Nombre AS NobreCompleto FROM Clientes ORDER BY Apellido DESC 
 
 -- Ejercicio 3
-SELECT Nombre, Apellido, Ciudad FROM Clientes WHERE Ciudad = 'Jujuy'
+SELECT Nombre, Apellido, Ciudad FROM Clientes WHERE Ciudad LIKE '%Jujuy'
 
 -- Ejercicio 4
 SELECT idCliente, Apellido, Nombre FROM Clientes WHERE CorreoElectronico IS NULL ORDER BY Apellido DESC, Nombre ASC
@@ -50,7 +50,7 @@ SELECT IdCliente, Apellido, Nombre FROM Clientes WHERE Telefono IS NOT NULL AND 
 SELECT DISTINCT Ciudad FROM Clientes
 
 -- Ejercicio 11
-SELECT IdPedido, IdCliente, FechaPedido, MontoTotal FROM Pedidos WHERE Estado <> 'Rechazado' ORDER BY FechaPedido ASC
+SELECT IdPedido, IdCliente, FechaPedido, MontoTotal FROM Pedidos WHERE Estado <> 'Rechazado' ORDER BY FechaPedido DESC
 
 -- Ejercicio 12
 SELECT * FROM Pedidos WHERE Estado in ('Pagado', 'En preparacion') AND MontoTotal BETWEEN 500 AND 1250
@@ -65,7 +65,7 @@ SELECT DISTINCT IdCliente FROM Pedidos WHERE MontoTotal > 1000 AND Estado <> 'Re
 SELECT * FROM Pedidos WHERE IdCliente IN (1, 8, 16, 24, 32, 48) ORDER BY IdCliente ASC, Estado ASC
 
 -- Ejercicio 16
-SELECT TOP 3 * FROM Pedidos ORDER BY MontoTotal ASC
+SELECT TOP 3 * FROM Pedidos WHERE Estado = 'Pagado' ORDER BY MontoTotal ASC
 
 -- Ejercicio 17
 SELECT IdPedido, Estado, MontoTotal FROM Pedidos 
@@ -82,7 +82,7 @@ CASE
     WHEN DATEPART(WEEKDAY, FechaPedido) = 6 THEN 'Viernes'
     ELSE 'Sabado'
 END AS DiaLetras
-FROM Pedidos WHERE YEAR(FechaPedido) = 2023
+FROM Pedidos WHERE YEAR(FechaPedido) = 2023 ORDER BY DiaSemana ASC
 
 -- Ejercicio 19
 SELECT *, MONTH(FechaPedido) as mes FROM Pedidos WHERE Estado = 'Pendiente' AND MONTH(FechaPedido) = MONTH(GETDATE())
