@@ -21,9 +21,14 @@ FROM Archivos AS A
 INNER JOIN TiposArchivos AS TA ON A.IDTipoArchivo = TA.IDTipoArchivo
 
 --Actividad 4
-SELECT Nombre + '.' + Extension AS NombreArchivo
-FROM Archivos
-WHERE Extension IN ('zip', 'docx', 'xls', 'js', 'gif')
+SELECT A.Nombre + '.' + A.Extension, TA.TipoArchivo 
+FROM Archivos  AS A
+INNER JOIN TiposArchivos  AS TA ON A.IDTipoArchivo = TA.IDTipoArchivo
+WHERE TA.TipoArchivo LIKE '%ZIP%'
+OR TA.TipoArchivo LIKE '%Word%'
+OR TA.TipoArchivo LIKE '%Excel%'
+OR TA.TipoArchivo LIKE '%Javascript%'
+OR TA.TipoArchivo LIKE '%GIF%'
 
 --Actividad 5
 SELECT A.Nombre, A.Extension, CAST(A.Tamaño / 1048576.0 AS decimal(10, 2)) AS Megabyte, A.FechaCreacion
@@ -52,7 +57,7 @@ WHERE TipoUsuario IN  ('Suscripción Plus', 'Suscripción Premium', 'Suscripció
 Empresarial')
 
 --Actividad 9
-SELECT U.Apellido, U.Nombre, A.Tamaño
+SELECT TOP 3 U.Apellido, U.Nombre, A.Tamaño
 FROM Usuarios AS U
 INNER JOIN Archivos AS A ON U.IDUsuario = A.IDUsuarioDueño
 WHERE A.Extension = 'zip' ORDER BY A.Tamaño DESC
@@ -104,7 +109,7 @@ WHERE AC.FechaCompartido IS NULL
 SELECT DISTINCT U.Apellido, U.Nombre
 FROM Usuarios AS U
 INNER JOIN Archivos AS A ON U.IDUsuario = A.IDUsuarioDueño
-WHERE Eliminado <> 0
+WHERE Eliminado = 1
 
 --Actividad 16
 SELECT TU.TipoUsuario
