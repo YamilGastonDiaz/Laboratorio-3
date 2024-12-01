@@ -21,7 +21,7 @@ SELECT P.Nombre,
     ) AS TiempoPromedio
 FROM Platos AS P
 ) AS AUX
-WHERE AUX.TiempoPromedio > 24
+WHERE AUX.TiempoPromedio >= 24
 
 --¿Cuál fue el mozo/a que en promedio haya recibido la mayor cantidad de dinero en concepto de propinas?
 SELECT TOP 1 M.Apellidos, M.Nombres,
