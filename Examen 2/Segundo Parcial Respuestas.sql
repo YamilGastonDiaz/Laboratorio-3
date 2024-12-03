@@ -40,8 +40,6 @@ BEGIN
                     FROM Importaciones 
                     WHERE ID_Cliente = @idCliente AND YEAR(Fecha) = YEAR(@fechaImportacion)
 
-                   
-               
                         IF(@AcumuladoAnual < 50000)
                         BEGIN
                             SET @arancel = @valorImportacion * 0.05
@@ -118,6 +116,7 @@ BEGIN
             DECLARE @idImportacion bigint
             DECLARE @arancel MONEY
             DECLARE @costoEnvio MONEY
+            DECLARE @Total money
 
             SELECT  @idImportacion = ID_Importacion
             FROM INSERTED
@@ -125,15 +124,17 @@ BEGIN
             SELECT @idCliente = ID_Cliente, @arancel = Arancel
             FROM Importaciones
             WHERE ID_Importacion = @idImportacion
+             
+            SET  @Total = dbo.FN_CalcularArancelesPendientes(@idCliente)
 
-            IF dbo.FN_CalcularArancelesPendientes(@idCliente) = 0
+            IF @Total = 0
             BEGIN
                 SET @costoEnvio = @arancel * 0.50
             END
             ELSE
             BEGIN
                 SET @costoEnvio = @arancel * 2
-                SET @costoEnvio = @costoEnvio + (@costoEnvio * 0.01)
+                SET @costoEnvio = @arancel + (@Total * 0.01)
             END
 
             UPDATE Envios SET Costo = @costoEnvio
@@ -147,4 +148,3 @@ BEGIN
         ROLLBACK TRANSACTION
     END CATCH
 END
-
